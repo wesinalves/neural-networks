@@ -17,9 +17,9 @@ neta = 0.3
 
 timesteps = 10
 
-def quantizer(vector):
+def quantizer(vector, threshold):
 	for i in range(len(vector)):
-		if vector[i] > np.mean(vector):
+		if vector[i] > threshold:
 			vector[i] = 1
 		else:
 			vector[i] = -1
@@ -34,8 +34,8 @@ def sigum(value):
 
 	return value
 
-d_n = quantizer(line)
-d_test = quantizer(line_test)
+d_n = quantizer(line, np.mean(line))
+d_test = quantizer(line_test, np.mean(line_test))
 
 '''
 debug >>>>>
