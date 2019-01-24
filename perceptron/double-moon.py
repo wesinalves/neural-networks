@@ -17,8 +17,8 @@ class DoubleMoon(object):
 
 		# generator = check_random_state(random_state) sklearn method to check the seed parameter
 
-		outer_circ_x = 2* np.cos(np.linspace(0, np.pi, n_out))
-		outer_circ_y = 2* np.sin(np.linspace(0,np.pi,n_out))
+		outer_circ_x = 2 * np.cos(np.linspace(0, np.pi, n_out))
+		outer_circ_y = 2 * np.sin(np.linspace(0,np.pi,n_out))
 		inner_circ_x = 2 - 2 * np.cos(np.linspace(0, np.pi,n_in)) 
 		inner_circ_y = 2 - 2 * np.sin(np.linspace(0, np.pi,n_in)) - 1.1 
 
