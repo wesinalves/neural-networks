@@ -13,12 +13,13 @@ Author: Wesin Alves
 import numpy as np
 
 class Perceptron(object):
-	def __init__(self, timesteps, inputs, outputs):
+	def __init__(self, timesteps, inputs, outputs, lr):
 		self.timesteps = timesteps
 		self.inputs = inputs
 		self.outputs = outputs
 		self.weights = np.zeros((inputs.shape[1], 1))
 		self.train_samples = inputs.shape[0]
+		self.lr = lr #learning rate
 
 	def __signum(value):
 		val = value[0]
@@ -36,11 +37,15 @@ class Perceptron(object):
 
 	def adapt(self):
 		for i in range(timesteps):
-			mse = 0
-			diff = []
+			mse = []
+			errors = []
 			for n in range(self.train_samples):
 				y = predict(self.inputs[n,:])
-				self.weights = self.weights + lr * ((d_train[i] - y_n)) * X_train[i,:]
-				diff.append(np.fabs(d_train[i] - y_n))
+				self.weights = self.weights + self.lr * (self.outputs[i] - y_n) * self.inputs[i,:]
+				erros.append(self.outputs[i] - y_n)
+
+			mse.append(np.mean(np.array(errors)**2))
+
+		return mse
 
 

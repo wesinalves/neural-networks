@@ -23,7 +23,7 @@ mean_a = -0.5
 mean_b = 0.5
 sigma_a = 0.1
 sigma_b = 0.1
-timesteps = 100
+timesteps = 15
 
 x_1a = sigma_a * np.random.randn(number_of_samples//2) + mean_a
 x_1b = sigma_b * np.random.randn(number_of_samples//2) + mean_b
@@ -68,27 +68,28 @@ def sigum(value):
 # initialization
 w_n = np.zeros((3,1))
 d_n = quantizer(x_3, 0)
-lr = 0.8
+lr = 0.01
 
 X_train, X_test, d_train, d_test = train_test_split(x_n.T,d_n.T, test_size=0.3, random_state=42)
 train_samples = X_train.shape[0]
 test_sample = X_test.shape[0]
 
-diff = []
 for t in range(timesteps):
 	mse = 0
-	diff = []
-	for i in range(train_samples):
-		# compute activation
-		u = w_n.T.dot(X_train[i,:])
-		# compute response
-		y_n = sigum(u)
-		# adapt weights
-		w_n = w_n + lr * ((d_train[i] - y_n)) * X_train[i,:]
-		diff.append(np.fabs(d_train[i] - y_n))
-	
-	mse = (np.sum(diff) / len(diff))**2
-	print(mse)
+	errors = []
+	# compute activation
+	u = w_n.T.dot(X_train[t,:])
+	# compute response
+	y_n = sigum(u)
+	# adapt weights
+	deltaW = lr * (d_train[t] - y_n) * X_train[t,:]
+	w_n = w_n + deltaW
+	errors.append(d_train[t] - y_n)
+	print(d_train[t] - y_n)
+	print(w_n)
+
+mse = np.mean(np.array(errors)**2)
+print('MSE: ',mse)
 
 
 # predictions
